@@ -18,10 +18,12 @@ plugins {
 dependencies {
     api("com.google.protobuf:protobuf-java")
     api("io.grpc:grpc-protobuf")
-    implementation("javax.annotation:javax.annotation-api")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("io.grpc:grpc-stub")
+    api("io.grpc:grpc-kotlin-stub")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
 }
 
+// See https://github.com/grpc/grpc-kotlin/blob/master/examples/build.gradle.kts
 protobuf {
     generatedFilesBaseDir = "$projectDir/src"
     protoc {
@@ -49,8 +51,12 @@ protobuf {
             }
 
             task.plugins {
-                id("grpc")
-                id("grpckt")
+                id("grpc") {
+                    outputSubDir = "java"
+                }
+                id("grpckt") {
+                    outputSubDir = "java"
+                }
             }
             task.dependsOn("clean")
         }
@@ -58,8 +64,7 @@ protobuf {
 }
 
 val generatedSrcDirs = listOf(
-    "${protobuf.protobuf.generatedFilesBaseDir}/main/java",
-    "${protobuf.protobuf.generatedFilesBaseDir}/main/kotlin"
+    "${protobuf.protobuf.generatedFilesBaseDir}/main/java"
 )
 
 tasks["clean"].doFirst {

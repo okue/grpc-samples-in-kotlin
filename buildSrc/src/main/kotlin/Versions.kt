@@ -3,7 +3,7 @@ object Versions {
     const val KOTLIN = "1.3.72"
 
     // https://github.com/Kotlin/kotlinx.coroutines
-    const val COROUTINE = "1.3.7"
+    const val COROUTINE = "1.3.8"
 
     // https://github.com/line/armeria
     const val ARMERIA = "0.99.8"

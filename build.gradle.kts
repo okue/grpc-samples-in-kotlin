@@ -17,8 +17,8 @@ allprojects {
 subprojects {
     apply {
         plugin("idea")
-        plugin("io.spring.dependency-management")
         plugin("java")
+        plugin("io.spring.dependency-management")
         plugin("org.jetbrains.kotlin.jvm")
     }
 
@@ -40,22 +40,19 @@ subprojects {
             mavenBom("com.linecorp.armeria:armeria-bom:${Versions.ARMERIA}")
             mavenBom("com.google.protobuf:protobuf-bom:${Versions.PROTOBUF}")
             mavenBom("io.grpc:grpc-bom:${Versions.GRPC}")
+            mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:${Versions.COROUTINE}")
         }
 
         dependencies {
             // https://github.com/MicroUtils/kotlin-logging
             dependency("io.github.microutils:kotlin-logging:1.7.10")
+            dependency("io.grpc:grpc-kotlin-stub:${Versions.GRPC_KT}")
         }
     }
 
     dependencies {
         implementation(kotlin("stdlib"))
-    }
-}
-
-val applications = listOf(project("grpc-kotlin"), project("grpc-kotlin-armeria"))
-configure(applications) {
-    dependencies {
         implementation("io.github.microutils:kotlin-logging")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     }
 }

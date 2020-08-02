@@ -1,0 +1,5 @@
+# grpc-kotlin
+
+```
+gradle run
+```

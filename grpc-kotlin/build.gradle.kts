@@ -3,8 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":protocol"))
 }
 
 application {
-    mainClassName = "org.okue.Application"
+    mainClassName = "org.okue.ApplicationKt"
 }

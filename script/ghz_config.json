@@ -1,0 +1,26 @@
+{
+  "host": "127.0.0.1:8080",
+  "proto": "../protocol/src/main/proto/hello.proto",
+  "import-paths": [
+    "../protocol/src/main/proto"
+  ],
+  "call": "example.hello.Greeter.HelloBlocking",
+  "insecure": true,
+  "total": 1000,
+  "concurrency": 300,
+  "connections": 1,
+  "data": [
+    {
+      "first_name": "Yagami",
+      "last_name": "Raito",
+      "message": "I am a man."
+    },
+    {
+      "first_name": "L",
+      "last_name": "Lawliet",
+      "message": "I am a detective."
+    }
+  ],
+  "binary": false,
+  "CPUs": 12
+}
