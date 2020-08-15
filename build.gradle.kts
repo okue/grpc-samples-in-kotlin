@@ -1,12 +1,14 @@
 plugins {
     idea
     java
-    kotlin("jvm") version Versions.KOTLIN
-    id("io.spring.dependency-management") version "1.0.8.RELEASE"
+    kotlin("jvm") version Versions.KOTLIN apply false
+    kotlin("plugin.spring") version Versions.KOTLIN apply false
+    id("org.springframework.boot") version Versions.SPRING_BOOT apply false
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
 }
 
 allprojects {
-    group = "org.okue"
+    group = "example.kt"
     version = "1.0.0-SNAPSHOT"
 
     repositories {
@@ -37,6 +39,7 @@ subprojects {
 
     dependencyManagement {
         imports {
+            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
             mavenBom("com.linecorp.armeria:armeria-bom:${Versions.ARMERIA}")
             mavenBom("com.google.protobuf:protobuf-bom:${Versions.PROTOBUF}")
             mavenBom("io.grpc:grpc-bom:${Versions.GRPC}")
@@ -45,7 +48,7 @@ subprojects {
 
         dependencies {
             // https://github.com/MicroUtils/kotlin-logging
-            dependency("io.github.microutils:kotlin-logging:1.7.10")
+            dependency("io.github.microutils:kotlin-logging:1.8.3")
             dependency("io.grpc:grpc-kotlin-stub:${Versions.GRPC_KT}")
         }
     }

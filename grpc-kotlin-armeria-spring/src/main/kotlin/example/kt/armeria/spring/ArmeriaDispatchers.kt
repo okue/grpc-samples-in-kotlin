@@ -1,4 +1,4 @@
-package org.okue
+package example.kt.armeria.spring
 
 import com.linecorp.armeria.server.ServiceRequestContext
 import kotlinx.coroutines.CoroutineScope

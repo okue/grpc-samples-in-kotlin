@@ -1,4 +1,4 @@
-package org.okue
+package example.kt
 
 import mu.KotlinLogging
 

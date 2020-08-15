@@ -4,8 +4,9 @@ plugins {
 
 dependencies {
     implementation(project(":protocol"))
+    implementation("ch.qos.logback:logback-classic")
 }
 
 application {
-    mainClassName = "org.okue.ApplicationKt"
+    mainClassName = "example.kt.GrpcApplicationKt"
 }

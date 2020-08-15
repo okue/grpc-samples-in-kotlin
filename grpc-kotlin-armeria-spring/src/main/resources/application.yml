@@ -1,0 +1,53 @@
+app:
+  phase: ${spring.profiles.active:local}
+  server.port: 8080
+  actuator.port: 8081
+
+armeria:
+  ports:
+    - port: ${app.server.port}
+  health-check-path: "/internal/health"
+  docs-path: "/internal/docs"
+  metrics-path: "/internal/metrics"
+
+spring:
+  profiles:
+    active: local
+
+management:
+  server:
+    port: ${app.actuator.port}
+  endpoints:
+    web:
+      exposure:
+        include:
+          - beans
+          - conditions
+          - configprops
+          - env
+          - health
+          - info
+          - loggers
+          - metrics
+          - mappings
+          - threaddump
+          - prometheus
+  endpoint.health.show-details: always
+  metrics:
+    use-global-registry: true
+    distribution:
+      percentiles:
+        http.server.requests:
+          - 0.5
+          - 0.75
+          - 0.95
+          - 0.99
+
+---
+
+spring.profiles:
+  - test
+
+armeria:
+  ports:
+    - port: 0

@@ -1,5 +1,6 @@
 # grpc-kotlin-armeria
 
 ```
-gradle run
+../gradlew run
+../gradlew run --args="co"
 ```

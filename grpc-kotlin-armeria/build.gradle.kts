@@ -12,5 +12,5 @@ dependencies {
 }
 
 application {
-    mainClassName = "org.okue.ApplicationKt"
+    mainClassName = "example.kt.armeria.ArmeriaGrpcApplicationKt"
 }
