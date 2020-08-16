@@ -18,11 +18,14 @@ class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override suspend fun helloBlocking(request: Hello.HelloRequest): Hello.HelloReply {
         log.info { "Hello" }
         withBlockingContext {
+            ServiceRequestContext.current()
             executeBlockingTask()
         }
         withDefaultContext {
+            ServiceRequestContext.current()
             executeNonBlockingTask()
         }
+        ServiceRequestContext.current()
         return Hello.HelloReply.newBuilder()
             .setMessage("Hello, ${request.firstName} ${request.lastName}.")
             .build()

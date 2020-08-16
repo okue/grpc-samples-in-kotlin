@@ -7,8 +7,8 @@
   "call": "example.hello.Greeter.HelloBlocking",
   "insecure": true,
   "total": 1000,
-  "concurrency": 300,
-  "connections": 1,
+  "concurrency": 200,
+  "connections": 10,
   "data": [
     {
       "first_name": "Yagami",
