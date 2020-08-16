@@ -7,7 +7,7 @@
   "call": "example.hello.Greeter.Hello",
   "insecure": true,
   "total": 200000,
-  "concurrency": 1000,
+  "concurrency": 100,
   "connections": 10,
   "data": [
     {
