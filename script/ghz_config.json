@@ -4,10 +4,10 @@
   "import-paths": [
     "../protocol/src/main/proto"
   ],
-  "call": "example.hello.Greeter.HelloBlocking",
+  "call": "example.hello.Greeter.Hello",
   "insecure": true,
-  "total": 1000,
-  "concurrency": 200,
+  "total": 200000,
+  "concurrency": 1000,
   "connections": 10,
   "data": [
     {

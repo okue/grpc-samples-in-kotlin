@@ -3,6 +3,7 @@ package example.kt.armeria
 import example.hello.GreeterGrpcKt
 import example.hello.Hello
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 
@@ -10,6 +11,7 @@ import mu.KotlinLogging
 class GreeterImplUsingKtDispatcher : GreeterGrpcKt.GreeterCoroutineImplBase(Dispatchers.Default) {
     override suspend fun hello(request: Hello.HelloRequest): Hello.HelloReply {
         log.info { "Hi, ${request.firstName}" }
+        delay(100)
         return Hello.HelloReply.newBuilder()
             .setMessage("Hello, ${request.firstName} ${request.lastName}.")
             .build()
