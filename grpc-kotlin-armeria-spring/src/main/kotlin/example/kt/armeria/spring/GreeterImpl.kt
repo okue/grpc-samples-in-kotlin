@@ -1,5 +1,6 @@
 package example.kt.armeria.spring
 
+import com.linecorp.armeria.server.ServiceRequestContext
 import example.hello.GreeterGrpcKt
 import example.hello.Hello
 import kotlinx.coroutines.delay
@@ -7,12 +8,15 @@ import mu.KotlinLogging
 
 class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override suspend fun hello(request: Hello.HelloRequest): Hello.HelloReply {
+        log.info { "Hello" }
+        ServiceRequestContext.current()
         return Hello.HelloReply.newBuilder()
             .setMessage("Hello, ${request.firstName} ${request.lastName}.")
             .build()
     }
 
     override suspend fun helloBlocking(request: Hello.HelloRequest): Hello.HelloReply {
+        log.info { "Hello" }
         withBlockingContext {
             executeBlockingTask()
         }
