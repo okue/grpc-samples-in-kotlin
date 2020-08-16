@@ -1,4 +1,4 @@
-# (WIP) grpc-samples-in-kotlin
+# grpc-samples-in-kotlin
 
 - `grpc-kotlin`
     - implemented with [grpc-java][gh-grpc-java] and [grpc-kotlin][gh-grpc-kotlin]
