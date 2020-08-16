@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean
 import kotlin.coroutines.CoroutineContext
 
 fun main(args: Array<String>) {
+    System.setProperty("kotlinx.coroutines.debug", "on")
     runApplication<ArmeriaGrpcSpringApplication>()
 }
 

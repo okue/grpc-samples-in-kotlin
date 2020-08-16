@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
 
-class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase(Dispatchers.Default) {
+class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override suspend fun hello(request: Hello.HelloRequest): Hello.HelloReply {
         log.info { "Hi, ${request.firstName}" }
         return Hello.HelloReply.newBuilder()

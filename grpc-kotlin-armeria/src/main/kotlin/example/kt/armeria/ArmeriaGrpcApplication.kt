@@ -12,6 +12,7 @@ import mu.KotlinLogging
 import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
+    System.setProperty("kotlinx.coroutines.debug", "on")
     val server = when {
         args.isNotEmpty() && args[0].startsWith("co") -> newServer(
             Mode.COROUTINE_DISPATCHERS

@@ -5,6 +5,7 @@ import mu.KotlinLogging
 
 fun main() {
     log.info("Starting...")
+    System.setProperty("kotlinx.coroutines.debug", "on")
     val server = ServerBuilder
         .forPort(8080)
         .addService(GreeterImpl())
