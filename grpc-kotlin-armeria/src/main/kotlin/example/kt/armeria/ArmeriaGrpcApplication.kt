@@ -33,7 +33,7 @@ enum class Mode {
     EVENT_LOOP, COROUTINE_DISPATCHERS
 }
 
-private fun newServer(mode: Mode): Server {
+internal fun newServer(mode: Mode): Server {
     log.info("with mode=$mode")
     return Server.builder()
         .http(8080)
