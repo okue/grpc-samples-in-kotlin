@@ -32,6 +32,12 @@ subprojects {
             freeCompilerArgs = listOf("-Xjsr305=strict", "-Xopt-in=kotlin.RequiresOptIn")
         }
     }
+    tasks.withType<Test> {
+        systemProperty("spring.profiles.active", "test")
+        useJUnitPlatform {
+            includeEngines("junit-jupiter")
+        }
+    }
     java {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -57,5 +63,10 @@ subprojects {
         implementation(kotlin("stdlib"))
         implementation("io.github.microutils:kotlin-logging")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+        implementation("org.springframework.boot:spring-boot-starter-test")
+    }
+    configurations.all {
+        exclude(module = "junit")
+        exclude(module = "junit-vintage-engine")
     }
 }
