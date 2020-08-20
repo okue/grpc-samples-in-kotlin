@@ -14,6 +14,11 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    // Override spring-boot-dependencies bom properties
+    // https://docs.spring.io/dependency-management-plugin/docs/current/reference/html/#dependency-management-configuration-bom-import-override-property
+    ext["kotlin.version"] = Versions.KOTLIN
+    ext["kotlin-coroutines.version"] = Versions.COROUTINE
 }
 
 subprojects {
@@ -49,7 +54,6 @@ subprojects {
             mavenBom("com.linecorp.armeria:armeria-bom:${Versions.ARMERIA}")
             mavenBom("com.google.protobuf:protobuf-bom:${Versions.PROTOBUF}")
             mavenBom("io.grpc:grpc-bom:${Versions.GRPC}")
-            mavenBom("org.jetbrains.kotlinx:kotlinx-coroutines-bom:${Versions.COROUTINE}")
         }
 
         dependencies {

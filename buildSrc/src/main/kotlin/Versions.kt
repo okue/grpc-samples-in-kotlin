@@ -1,20 +1,20 @@
 object Versions {
-    const val SPRING_BOOT = "2.3.2.RELEASE"
+    const val SPRING_BOOT = "2.3.3.RELEASE"
 
     // https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md
-    const val KOTLIN = "1.3.72"
+    const val KOTLIN = "1.4.0"
 
     // https://github.com/Kotlin/kotlinx.coroutines
-    const val COROUTINE = "1.3.8"
+    const val COROUTINE = "1.3.9"
 
     // https://github.com/line/armeria
     const val ARMERIA = "0.99.9"
 
     // https://github.com/google/protobuf-gradle-plugin
-    const val PROTOBUF_PLUGIN = "0.8.12"
+    const val PROTOBUF_PLUGIN = "0.8.13"
 
     // https://github.com/protocolbuffers/protobuf/tree/master/java
-    const val PROTOBUF = "3.12.2"
+    const val PROTOBUF = "3.13.0"
 
     // https://github.com/grpc/grpc-java
     const val GRPC = "1.31.1"

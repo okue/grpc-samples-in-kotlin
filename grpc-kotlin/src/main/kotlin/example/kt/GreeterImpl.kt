@@ -12,7 +12,7 @@ class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase(Dispatchers.Unconfine
         log.info { "Hi, ${request.firstName}" }
         delay(100)
         return Hello.HelloReply.newBuilder()
-            .setMessage("Hello, ${request.firstName} ${request.lastName}.")
+            .setMessage("${request.message}, ${request.firstName} ${request.lastName}.")
             .build()
     }
 
@@ -23,7 +23,7 @@ class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase(Dispatchers.Unconfine
             Thread.sleep(1000)
         }
         return Hello.HelloReply.newBuilder()
-            .setMessage("Hello, ${request.firstName} ${request.lastName}.")
+            .setMessage("${request.message}, ${request.firstName} ${request.lastName}.")
             .build()
     }
 

@@ -6,9 +6,6 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import groovy.lang.GString
 
-@Suppress("FunctionName")
-fun GStringOf(str: String): GString = GString.EMPTY + str
-
 plugins {
     `java-library`
     kotlin("jvm") apply false
@@ -45,9 +42,7 @@ protobuf {
             task.descriptorSetOptions.apply {
                 includeSourceInfo = true
                 includeImports = true
-                path = GStringOf(
-                    "${project.buildDir}/resources/main/META-INF/armeria/grpc/${project.name}.dsc"
-                )
+                path = "${project.buildDir}/resources/main/META-INF/armeria/grpc/${project.name}.dsc"
             }
 
             task.plugins {
