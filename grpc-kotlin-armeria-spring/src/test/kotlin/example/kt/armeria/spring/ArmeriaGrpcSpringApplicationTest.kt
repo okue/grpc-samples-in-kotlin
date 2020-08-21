@@ -1,34 +1,35 @@
-package example.kt.armeria
+package example.kt.armeria.spring
 
 import com.linecorp.armeria.client.Clients
-import com.linecorp.armeria.server.Server
 import example.hello.GreeterGrpcKt
 import example.hello.Hello
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
 
-class ArmeriaGrpcApplicationTest {
+@SpringBootTest
+class ArmeriaGrpcSpringApplicationTest {
     @Test
     fun test() {
-        val job = GlobalScope.launch {
-            val res = stub.hello(buildHello())
-            assertThat(res.message).isEqualTo("Hello, Taro Yamada.")
+        val stub = getStub()
+        val jobs = (0..10).map {
+            GlobalScope.launch {
+                val res = stub.hello(buildHello())
+                assertThat(res.message).isEqualTo("Hello, Taro Yamada.")
+            }
         }
         runBlocking {
-            job.join()
+            jobs.joinAll()
         }
     }
 
     companion object {
-        private lateinit var stub: GreeterGrpcKt.GreeterCoroutineStub
-
-        private lateinit var server: Server
+        private val log = KotlinLogging.logger {}
 
         private fun buildHello() =
             Hello.HelloRequest.newBuilder()
@@ -37,15 +38,9 @@ class ArmeriaGrpcApplicationTest {
                 .setMessage("Hello")
                 .build()
 
-        private val log = KotlinLogging.logger {}
-
-        @JvmStatic
-        @BeforeAll
-        fun setup() {
-            server = newServer(mode = Mode.EVENT_LOOP)
-            server.start().join()
-            stub = Clients
-                .builder("gproto+http://127.0.0.1:${server.activeLocalPort()}")
+        private fun getStub(): GreeterGrpcKt.GreeterCoroutineStub {
+            return Clients
+                .builder("gproto+http://127.0.0.1:8080")
                 .decorator { delegate, ctx, req ->
                     ctx.log().whenRequestComplete().thenAccept {
                         log.info("==> $it")
@@ -56,12 +51,6 @@ class ArmeriaGrpcApplicationTest {
                     delegate.execute(ctx, req)
                 }
                 .build(GreeterGrpcKt.GreeterCoroutineStub::class.java)
-        }
-
-        @JvmStatic
-        @AfterAll
-        fun cleanup() {
-            server.stop().join()
         }
     }
 }

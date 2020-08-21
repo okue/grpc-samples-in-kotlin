@@ -13,7 +13,7 @@ class GreeterImplUsingKtDispatcher : GreeterGrpcKt.GreeterCoroutineImplBase(Disp
         log.info { "Hi, ${request.firstName}" }
         delay(100)
         return Hello.HelloReply.newBuilder()
-            .setMessage("Hello, ${request.firstName} ${request.lastName}.")
+            .setMessage("${request.message}, ${request.firstName} ${request.lastName}.")
             .build()
     }
 

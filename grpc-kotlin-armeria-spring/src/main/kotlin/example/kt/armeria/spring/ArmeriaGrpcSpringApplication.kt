@@ -19,7 +19,7 @@ import io.grpc.ServerCall
 import io.grpc.ServerInterceptors
 import io.grpc.kotlin.CoroutineContextServerInterceptor
 import io.grpc.protobuf.services.ProtoReflectionService
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asCoroutineDispatcher
 import mu.KotlinLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -58,14 +58,9 @@ class ArmeriaGrpcSpringApplication {
                     .addService(
                         ServerInterceptors.intercept(
                             GreeterImpl(),
-                            object : CoroutineContextServerInterceptor() {
-                                override fun coroutineContext(
-                                    call: ServerCall<*, *>,
-                                    headers: Metadata
-                                ): CoroutineContext {
-                                    return Dispatchers.Unconfined +
-                                            ArmeriaRequestContext(ServiceRequestContext.current())
-                                }
+                            coroutineContextInterceptor { _, _ ->
+                                val ctx = ServiceRequestContext.current()
+                                ctx.eventLoop().asCoroutineDispatcher() + ArmeriaRequestContext(ctx)
                             }
                         )
                     )
@@ -73,7 +68,7 @@ class ArmeriaGrpcSpringApplication {
                     .enableUnframedRequests(true)
                     .build(),
                 MetricCollectingService.newDecorator(
-                    MeterIdPrefixFunction.ofDefault("armeria.client.grpc")
+                    MeterIdPrefixFunction.ofDefault("armeria.server.grpc")
                 ),
                 BraveService.newDecorator(tracing),
                 LoggingService.builder()
@@ -92,5 +87,12 @@ class ArmeriaGrpcSpringApplication {
 
     companion object {
         private val log = KotlinLogging.logger {}
+
+        private fun coroutineContextInterceptor(block: (ServerCall<*, *>, Metadata) -> CoroutineContext) =
+            object : CoroutineContextServerInterceptor() {
+                override fun coroutineContext(call: ServerCall<*, *>, headers: Metadata): CoroutineContext {
+                    return block(call, headers)
+                }
+            }
     }
 }
