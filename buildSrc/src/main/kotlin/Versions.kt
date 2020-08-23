@@ -1,4 +1,5 @@
 object Versions {
+    // https://github.com/spring-projects/spring-boot
     const val SPRING_BOOT = "2.3.3.RELEASE"
 
     // https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md
@@ -8,7 +9,7 @@ object Versions {
     const val COROUTINE = "1.3.9"
 
     // https://github.com/line/armeria
-    const val ARMERIA = "0.99.9"
+    const val ARMERIA = "1.0.0"
 
     // https://github.com/google/protobuf-gradle-plugin
     const val PROTOBUF_PLUGIN = "0.8.13"

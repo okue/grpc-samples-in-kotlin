@@ -1,10 +1,12 @@
 plugins {
     idea
     java
+    `project-report`
     kotlin("jvm") version Versions.KOTLIN apply false
     kotlin("plugin.spring") version Versions.KOTLIN apply false
     id("org.springframework.boot") version Versions.SPRING_BOOT apply false
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
+    id("net.rdrei.android.buildtimetracker") version "0.11.0"
 }
 
 allprojects {
@@ -27,6 +29,7 @@ subprojects {
         plugin("java")
         plugin("io.spring.dependency-management")
         plugin("org.jetbrains.kotlin.jvm")
+        plugin("org.gradle.project-report")
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -72,5 +75,13 @@ subprojects {
     configurations.all {
         exclude(module = "junit")
         exclude(module = "junit-vintage-engine")
+    }
+}
+
+buildtimetracker {
+    reporters {
+        register("summary") {
+            options["shortenTaskNames"] = "false"
+        }
     }
 }

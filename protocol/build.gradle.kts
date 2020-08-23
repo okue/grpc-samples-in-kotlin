@@ -4,7 +4,6 @@ import com.google.protobuf.gradle.ofSourceSet
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import groovy.lang.GString
 
 plugins {
     `java-library`
@@ -15,7 +14,7 @@ plugins {
 dependencies {
     api("com.google.protobuf:protobuf-java")
     api("io.grpc:grpc-protobuf")
-    implementation("io.grpc:grpc-stub")
+    api("io.grpc:grpc-stub")
     api("io.grpc:grpc-kotlin-stub")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 }

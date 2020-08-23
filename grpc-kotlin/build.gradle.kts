@@ -6,7 +6,9 @@ dependencies {
     implementation(project(":protocol"))
     implementation("ch.qos.logback:logback-classic")
 
-    runtimeOnly("io.grpc:grpc-netty-shaded:${Versions.GRPC}")
+    testImplementation("io.grpc:grpc-core")
+
+    runtimeOnly("io.grpc:grpc-netty-shaded")
 }
 
 application {
