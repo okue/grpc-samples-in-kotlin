@@ -1,6 +1,6 @@
 object Versions {
     // https://github.com/spring-projects/spring-boot
-    const val SPRING_BOOT = "2.3.3.RELEASE"
+    const val SPRING_BOOT = "2.3.4.RELEASE"
 
     // https://github.com/JetBrains/kotlin/blob/master/ChangeLog.md
     const val KOTLIN = "1.4.0"
@@ -9,7 +9,7 @@ object Versions {
     const val COROUTINE = "1.3.9"
 
     // https://github.com/line/armeria
-    const val ARMERIA = "1.0.0"
+    const val ARMERIA = "1.1.0"
 
     // https://github.com/google/protobuf-gradle-plugin
     const val PROTOBUF_PLUGIN = "0.8.13"
@@ -21,5 +21,5 @@ object Versions {
     const val GRPC = "1.31.1"
 
     // https://github.com/grpc/grpc-kotlin
-    const val GRPC_KT = "0.1.5"
+    const val GRPC_KT = "0.2.0"
 }

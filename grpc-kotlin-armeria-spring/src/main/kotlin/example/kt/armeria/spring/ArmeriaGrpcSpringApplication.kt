@@ -5,14 +5,13 @@ import brave.handler.MutableSpan
 import brave.handler.SpanHandler
 import brave.propagation.TraceContext
 import com.linecorp.armeria.common.brave.RequestContextCurrentTraceContext
+import com.linecorp.armeria.common.grpc.GrpcMeterIdPrefixFunction
 import com.linecorp.armeria.common.grpc.GrpcSerializationFormats
 import com.linecorp.armeria.common.logging.LogLevel
-import com.linecorp.armeria.common.metric.MeterIdPrefixFunction
 import com.linecorp.armeria.server.ServiceRequestContext
 import com.linecorp.armeria.server.brave.BraveService
 import com.linecorp.armeria.server.grpc.GrpcService
 import com.linecorp.armeria.server.logging.LoggingService
-import com.linecorp.armeria.server.metric.MetricCollectingService
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator
 import io.grpc.Metadata
 import io.grpc.ServerCall
@@ -51,6 +50,10 @@ class ArmeriaGrpcSpringApplication {
     }
 
     @Bean
+    fun meterIdPrefixFunction() =
+        GrpcMeterIdPrefixFunction.of("armeria.server")
+
+    @Bean
     fun myGrpcService(tracing: Tracing) = ArmeriaServerConfigurator { serverBuilder ->
         serverBuilder
             .service(
@@ -67,9 +70,6 @@ class ArmeriaGrpcSpringApplication {
                     .supportedSerializationFormats(GrpcSerializationFormats.values())
                     .enableUnframedRequests(true)
                     .build(),
-                MetricCollectingService.newDecorator(
-                    MeterIdPrefixFunction.ofDefault("armeria.server.grpc")
-                ),
                 BraveService.newDecorator(tracing),
                 LoggingService.builder()
                     .requestLogLevel(LogLevel.INFO)

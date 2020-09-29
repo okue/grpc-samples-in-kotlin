@@ -5,6 +5,7 @@ import com.linecorp.armeria.server.Server
 import example.hello.GreeterGrpcKt
 import example.hello.Hello
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
@@ -16,12 +17,12 @@ import org.junit.jupiter.api.Test
 class ArmeriaGrpcApplicationTest {
     @Test
     fun test() {
-        val job = GlobalScope.launch {
+        val job = GlobalScope.async {
             val res = stub.hello(buildHello())
             assertThat(res.message).isEqualTo("Hello, Taro Yamada.")
         }
         runBlocking {
-            job.join()
+            job.await()
         }
     }
 

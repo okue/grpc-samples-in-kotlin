@@ -1,6 +1,6 @@
 <configuration>
     <property name="CONSOLE_LOG_PATTERN"
-              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [traceId:%X{traceId}] %highlight(%-5level) %cyan(%logger{45}:%L) - %msg %n{}MDC=%mdc%n"/>
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [traceId:%X{traceId}] %highlight(%-5level) %cyan(%logger{45}:%L) - %msg%n"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -12,13 +12,11 @@
         <appender-ref ref="CONSOLE"/>
         <exports>
             client.*,
-            tls.*,
             remote.*,
             scheme,
             req.service_name,
-            req.method,
+            req.name,
             req.path,
-            req.query,
             res.status_code,
             traceId=attr:com.linecorp.armeria.internal.common.brave.TraceContextUtil#TRACE_CONTEXT:example.kt.armeria.spring.logging.TraceIdStringifier,
             spanId=attr:com.linecorp.armeria.internal.common.brave.TraceContextUtil#TRACE_CONTEXT:example.kt.armeria.spring.logging.SpanIdStringifier,

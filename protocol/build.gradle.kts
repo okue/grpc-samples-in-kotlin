@@ -30,7 +30,7 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-java:${Versions.GRPC}"
         }
         id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:${Versions.GRPC_KT}"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:${Versions.GRPC_KT}:jdk7@jar"
         }
     }
     generateProtoTasks {

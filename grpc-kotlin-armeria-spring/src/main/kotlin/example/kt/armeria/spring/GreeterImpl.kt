@@ -9,9 +9,10 @@ import mu.KotlinLogging
 class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override suspend fun hello(request: Hello.HelloRequest): Hello.HelloReply {
         log.info { "Hello" }
+        delay(listOf(100, 1).random().toLong())
         ServiceRequestContext.current()
         return Hello.HelloReply.newBuilder()
-            .setMessage("Hello, ${request.firstName} ${request.lastName}.")
+            .setMessage("${request.message}, ${request.firstName} ${request.lastName}.")
             .build()
     }
 

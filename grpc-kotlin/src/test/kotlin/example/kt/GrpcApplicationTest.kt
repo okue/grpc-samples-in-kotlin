@@ -6,6 +6,8 @@ import io.grpc.Channel
 import io.grpc.inprocess.InProcessChannelBuilder
 import io.grpc.inprocess.InProcessServerBuilder
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -20,13 +22,13 @@ class GrpcApplicationTest {
     fun test() {
         val stub = GreeterCoroutineStub(channel)
         val jobs = (0..100).map {
-            GlobalScope.launch {
+            GlobalScope.async {
                 val res = stub.hello(buildHello())
                 assertThat(res.message).isEqualTo("Hello, Taro Yamada.")
             }
         }
         runBlocking {
-            jobs.joinAll()
+            jobs.awaitAll()
         }
     }
 
