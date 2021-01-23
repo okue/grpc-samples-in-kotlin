@@ -47,11 +47,11 @@ class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
     }
 
     override suspend fun helloError(request: Hello.HelloRequest): Hello.HelloReply {
-        throw when (request.firstName) {
+        throw when (request.firstName + request.lastName) {
             "" -> {
                 Status.INVALID_ARGUMENT.withDescription("first name is empty!!").asRuntimeException()
             }
-            "Nishiyama" -> {
+            "KojiroYamada" -> {
                 FooErrorException(message = "Who are you?", reason = "invalid user")
             }
             else -> {
