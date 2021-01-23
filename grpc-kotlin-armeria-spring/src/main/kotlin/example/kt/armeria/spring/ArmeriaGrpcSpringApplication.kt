@@ -20,6 +20,7 @@ import io.grpc.kotlin.CoroutineContextServerInterceptor
 import io.grpc.protobuf.services.ProtoReflectionService
 import kotlinx.coroutines.asCoroutineDispatcher
 import mu.KotlinLogging
+import mu.withLoggingContext
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -41,8 +42,10 @@ class ArmeriaGrpcSpringApplication {
                 RequestContextCurrentTraceContext.ofDefault()
             )
             .addSpanHandler(object : SpanHandler() {
-                override fun end(context: TraceContext?, span: MutableSpan?, cause: Cause?): Boolean {
-                    log.info("span ends: $context")
+                override fun end(context: TraceContext, span: MutableSpan?, cause: Cause?): Boolean {
+                    withLoggingContext("traceId" to context.traceIdString()) {
+                        log.info("span ends: $context")
+                    }
                     return true
                 }
             })

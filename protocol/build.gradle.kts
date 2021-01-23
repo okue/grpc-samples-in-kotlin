@@ -66,6 +66,6 @@ tasks["clean"].doFirst {
 }
 
 idea.module {
-    // resourceDirs.add(file) does not work
+    // To let armeria doc-service find descriptors when running application by IDEA.
     resourceDirs = resourceDirs + file("build/resources/main/")
 }

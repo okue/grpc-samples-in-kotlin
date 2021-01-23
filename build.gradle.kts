@@ -61,7 +61,7 @@ subprojects {
 
         dependencies {
             // https://github.com/MicroUtils/kotlin-logging
-            dependency("io.github.microutils:kotlin-logging:1.8.3")
+            dependency("io.github.microutils:kotlin-logging:1.12.0")
             dependency("io.grpc:grpc-kotlin-stub:${Versions.GRPC_KT}")
         }
     }
