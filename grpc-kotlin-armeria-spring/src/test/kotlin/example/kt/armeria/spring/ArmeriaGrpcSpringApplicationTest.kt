@@ -2,8 +2,8 @@ package example.kt.armeria.spring
 
 import com.linecorp.armeria.client.Clients
 import com.linecorp.armeria.server.Server
-import example.hello.GreeterGrpcKt
-import example.hello.Hello
+import example.kt.proto.GreeterGrpcKt
+import example.kt.proto.Hello
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

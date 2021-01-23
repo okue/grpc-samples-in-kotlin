@@ -2,11 +2,10 @@ package example.kt.armeria
 
 import com.linecorp.armeria.client.Clients
 import com.linecorp.armeria.server.Server
-import example.hello.GreeterGrpcKt
-import example.hello.Hello
+import example.kt.proto.GreeterGrpcKt
+import example.kt.proto.Hello
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.assertj.core.api.Assertions.assertThat

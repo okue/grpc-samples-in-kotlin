@@ -1,8 +1,8 @@
 package example.kt.armeria.spring
 
 import com.linecorp.armeria.server.ServiceRequestContext
-import example.hello.GreeterGrpcKt
-import example.hello.Hello
+import example.kt.proto.GreeterGrpcKt
+import example.kt.proto.Hello
 import io.grpc.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -52,13 +52,10 @@ class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
                 Status.INVALID_ARGUMENT.withDescription("first name is empty!!").asRuntimeException()
             }
             "Nishiyama" -> {
-                RuntimeException("Who is Nishiyama!")
-            }
-            "Yamada" -> {
-                RuntimeException("Who is Yamada!")
+                FooErrorException(message = "Who are you?", reason = "invalid user")
             }
             else -> {
-                Status.PERMISSION_DENIED.withDescription("Unexpected User").asRuntimeException()
+                RuntimeException("Unexpected")
             }
         }
     }

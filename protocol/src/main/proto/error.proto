@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package example.kt;
+option java_package = "example.kt.proto";
+
+message FooError {
+  string message = 1;
+  string reason = 2;
+}

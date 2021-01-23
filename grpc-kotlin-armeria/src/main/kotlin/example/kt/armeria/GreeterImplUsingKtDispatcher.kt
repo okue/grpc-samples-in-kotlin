@@ -1,7 +1,7 @@
 package example.kt.armeria
 
-import example.hello.GreeterGrpcKt
-import example.hello.Hello
+import example.kt.proto.GreeterGrpcKt
+import example.kt.proto.Hello
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext

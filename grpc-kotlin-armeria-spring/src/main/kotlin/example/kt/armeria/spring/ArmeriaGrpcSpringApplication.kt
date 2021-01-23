@@ -76,6 +76,7 @@ class ArmeriaGrpcSpringApplication {
                     .addService(
                         ServerInterceptors.intercept(
                             GreeterImpl(),
+                            ErrorHandlingServerInterceptor(),
                             object : CoroutineContextServerInterceptor() {
                                 override fun coroutineContext(
                                     call: ServerCall<*, *>,
@@ -85,13 +86,14 @@ class ArmeriaGrpcSpringApplication {
                                     // To propagate armeria request context to non-armeria threads
                                     return ArmeriaRequestContext(ctx)
                                 }
-                            }
+                            },
                         )
                     )
                     .supportedSerializationFormats(
                         GrpcSerializationFormats.PROTO,
                         GrpcSerializationFormats.JSON,
                     )
+                    // For https://armeria.dev/docs/server-docservice/
                     .enableUnframedRequests(true)
                     .build(),
                 BraveService.newDecorator(tracing),
