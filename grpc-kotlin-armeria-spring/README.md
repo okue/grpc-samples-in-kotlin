@@ -14,13 +14,13 @@ See
 [ErrorHandlingServerInterceptor.kt](src/main/kotlin/example/kt/armeria/spring/ErrorHandlingServerInterceptor.kt)
 
 ### Spring Boot Actuator
-http://localhost:8081/actuator
+See http://localhost:8081/actuator
 
 ### Prometheus metrics
-http://localhost:8081/internal/metrics
+See http://localhost:8081/internal/metrics
 
 ### [Armeria DocService][docService]
-http://localhost:8080/internal/docs/
+See http://localhost:8080/internal/docs/
 
 
 
