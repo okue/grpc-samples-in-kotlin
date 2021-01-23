@@ -18,7 +18,6 @@ import io.grpc.ServerCall
 import io.grpc.ServerInterceptors
 import io.grpc.kotlin.CoroutineContextServerInterceptor
 import io.grpc.protobuf.services.ProtoReflectionService
-import kotlinx.coroutines.asCoroutineDispatcher
 import mu.KotlinLogging
 import mu.withLoggingContext
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -66,7 +65,8 @@ class ArmeriaGrpcSpringApplication {
                             GreeterImpl(),
                             coroutineContextInterceptor { _, _ ->
                                 val ctx = ServiceRequestContext.current()
-                                ctx.eventLoop().asCoroutineDispatcher() + ArmeriaRequestContext(ctx)
+                                // To propagate armeria request context to non-armeria threads
+                                ArmeriaRequestContext(ctx)
                             }
                         )
                     )
