@@ -8,6 +8,7 @@ import com.linecorp.armeria.common.brave.RequestContextCurrentTraceContext
 import com.linecorp.armeria.common.grpc.GrpcMeterIdPrefixFunction
 import com.linecorp.armeria.common.grpc.GrpcSerializationFormats
 import com.linecorp.armeria.common.logging.LogLevel
+import com.linecorp.armeria.common.metric.MoreMeters
 import com.linecorp.armeria.server.ServiceRequestContext
 import com.linecorp.armeria.server.brave.BraveService
 import com.linecorp.armeria.server.grpc.GrpcService
@@ -18,6 +19,7 @@ import io.grpc.ServerCall
 import io.grpc.ServerInterceptors
 import io.grpc.kotlin.CoroutineContextServerInterceptor
 import io.grpc.protobuf.services.ProtoReflectionService
+import io.micrometer.core.instrument.distribution.DistributionStatisticConfig
 import mu.KotlinLogging
 import mu.withLoggingContext
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -32,6 +34,17 @@ fun main() {
 
 @SpringBootApplication
 class ArmeriaGrpcSpringApplication {
+
+    init {
+        MoreMeters.setDistributionStatisticConfig(
+            DistributionStatisticConfig.builder()
+                // configures quantiles
+                .percentiles(0.5, 0.75, 0.90, 0.95, 0.99)
+                .build()
+                .merge(MoreMeters.distributionStatisticConfig())
+        )
+    }
+
     @Bean
     fun tracing(): Tracing {
         return Tracing
@@ -63,14 +76,22 @@ class ArmeriaGrpcSpringApplication {
                     .addService(
                         ServerInterceptors.intercept(
                             GreeterImpl(),
-                            coroutineContextInterceptor { _, _ ->
-                                val ctx = ServiceRequestContext.current()
-                                // To propagate armeria request context to non-armeria threads
-                                ArmeriaRequestContext(ctx)
+                            object : CoroutineContextServerInterceptor() {
+                                override fun coroutineContext(
+                                    call: ServerCall<*, *>,
+                                    headers: Metadata
+                                ): CoroutineContext {
+                                    val ctx = ServiceRequestContext.current()
+                                    // To propagate armeria request context to non-armeria threads
+                                    return ArmeriaRequestContext(ctx)
+                                }
                             }
                         )
                     )
-                    .supportedSerializationFormats(GrpcSerializationFormats.values())
+                    .supportedSerializationFormats(
+                        GrpcSerializationFormats.PROTO,
+                        GrpcSerializationFormats.JSON,
+                    )
                     .enableUnframedRequests(true)
                     .build(),
                 BraveService.newDecorator(tracing),
@@ -90,12 +111,5 @@ class ArmeriaGrpcSpringApplication {
 
     companion object {
         private val log = KotlinLogging.logger {}
-
-        private fun coroutineContextInterceptor(block: (ServerCall<*, *>, Metadata) -> CoroutineContext) =
-            object : CoroutineContextServerInterceptor() {
-                override fun coroutineContext(call: ServerCall<*, *>, headers: Metadata): CoroutineContext {
-                    return block(call, headers)
-                }
-            }
     }
 }

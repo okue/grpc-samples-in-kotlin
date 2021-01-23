@@ -3,6 +3,7 @@ package example.kt.armeria.spring
 import com.linecorp.armeria.server.ServiceRequestContext
 import example.hello.GreeterGrpcKt
 import example.hello.Hello
+import io.grpc.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -43,6 +44,23 @@ class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
         return Hello.HelloReply.newBuilder()
             .setMessage("Hello, ${request.firstName} ${request.lastName}.")
             .build()
+    }
+
+    override suspend fun helloError(request: Hello.HelloRequest): Hello.HelloReply {
+        throw when (request.firstName) {
+            "" -> {
+                Status.INVALID_ARGUMENT.withDescription("first name is empty!!").asRuntimeException()
+            }
+            "Nishiyama" -> {
+                RuntimeException("Who is Nishiyama!")
+            }
+            "Yamada" -> {
+                RuntimeException("Who is Yamada!")
+            }
+            else -> {
+                Status.PERMISSION_DENIED.withDescription("Unexpected User").asRuntimeException()
+            }
+        }
     }
 
     private fun ensureArmeriaRequestContext() {

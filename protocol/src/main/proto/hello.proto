@@ -6,6 +6,7 @@ option java_package = "example.hello";
 service Greeter {
   rpc Hello (HelloRequest) returns (HelloReply) {}
   rpc HelloBlocking (HelloRequest) returns (HelloReply) {}
+  rpc HelloError (HelloRequest) returns (HelloReply) {}
 }
 
 message HelloRequest {
