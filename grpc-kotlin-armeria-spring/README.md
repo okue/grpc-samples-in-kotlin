@@ -22,15 +22,20 @@ See
 
 ### Spring Boot Actuator
 
-See http://localhost:8081/actuator
+Open http://localhost:8081/actuator
 
 ### Prometheus metrics
 
-See http://localhost:8081/internal/metrics
+Open http://localhost:8081/internal/metrics
+
+See
+
+- [GrpcMeterIdPrefixFunction](https://javadoc.io/doc/com.linecorp.armeria/armeria-javadoc/latest/com/linecorp/armeria/common/grpc/GrpcMeterIdPrefixFunction.html)
+- https://armeria.dev/docs/advanced-metrics/
 
 ### [Armeria DocService][docService]
 
-See http://localhost:8080/internal/docs/
+Open http://localhost:8080/internal/docs/
 
 
 [docService]: https://armeria.dev/docs/server-docservice
