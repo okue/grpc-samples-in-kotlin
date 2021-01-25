@@ -12,6 +12,10 @@ See
 - [LogbackStringifiers.kt](src/main/kotlin/example/kt/armeria/spring/logging/LogbackStringifiers.kt)
   - https://armeria.dev/docs/advanced-logging
 
+### Tracing
+
+Just use [Armeria's Zipkin integration](https://armeria.dev/docs/advanced-zipkin).
+
 ### Error handling
 
 See
