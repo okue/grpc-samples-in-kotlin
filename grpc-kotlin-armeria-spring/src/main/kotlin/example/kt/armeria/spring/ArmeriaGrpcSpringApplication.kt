@@ -14,6 +14,7 @@ import com.linecorp.armeria.server.brave.BraveService
 import com.linecorp.armeria.server.grpc.GrpcService
 import com.linecorp.armeria.server.logging.LoggingService
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator
+import io.grpc.BindableService
 import io.grpc.Metadata
 import io.grpc.ServerCall
 import io.grpc.ServerInterceptors
@@ -69,26 +70,23 @@ class ArmeriaGrpcSpringApplication {
         GrpcMeterIdPrefixFunction.of("armeria.server")
 
     @Bean
-    fun myGrpcService(tracing: Tracing) = ArmeriaServerConfigurator { serverBuilder ->
+    fun myGrpcService(
+        grpcServices: List<BindableService>,
+        tracing: Tracing
+    ) = ArmeriaServerConfigurator { serverBuilder ->
         serverBuilder
             .service(
-                GrpcService.builder()
-                    .addService(
-                        ServerInterceptors.intercept(
-                            GreeterImpl(),
-                            ErrorHandlingServerInterceptor(),
-                            object : CoroutineContextServerInterceptor() {
-                                override fun coroutineContext(
-                                    call: ServerCall<*, *>,
-                                    headers: Metadata
-                                ): CoroutineContext {
-                                    val ctx = ServiceRequestContext.current()
-                                    // To propagate armeria request context to non-armeria threads
-                                    return ArmeriaRequestContext(ctx)
-                                }
-                            },
+                GrpcService.builder().apply {
+                    grpcServices.forEach {
+                        addService(
+                            ServerInterceptors.intercept(
+                                it,
+                                ErrorHandlingServerInterceptor(),
+                                ArmeriaRequestContextInterceptor
+                            )
                         )
-                    )
+                    }
+                }
                     .supportedSerializationFormats(
                         GrpcSerializationFormats.PROTO,
                         GrpcSerializationFormats.JSON,
@@ -113,5 +111,16 @@ class ArmeriaGrpcSpringApplication {
 
     companion object {
         private val log = KotlinLogging.logger {}
+
+        private object ArmeriaRequestContextInterceptor : CoroutineContextServerInterceptor() {
+            override fun coroutineContext(
+                call: ServerCall<*, *>,
+                headers: Metadata
+            ): CoroutineContext {
+                val ctx = ServiceRequestContext.current()
+                // To propagate armeria request context to non-armeria threads
+                return ArmeriaRequestContext(ctx)
+            }
+        }
     }
 }

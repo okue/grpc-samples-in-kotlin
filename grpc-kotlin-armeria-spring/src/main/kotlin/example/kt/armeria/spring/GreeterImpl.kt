@@ -8,7 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import mu.KotlinLogging
+import org.springframework.stereotype.Component
 
+@Component
 class GreeterImpl : GreeterGrpcKt.GreeterCoroutineImplBase() {
     override suspend fun hello(request: Hello.HelloRequest): Hello.HelloReply {
         log.info { "Hello" }
