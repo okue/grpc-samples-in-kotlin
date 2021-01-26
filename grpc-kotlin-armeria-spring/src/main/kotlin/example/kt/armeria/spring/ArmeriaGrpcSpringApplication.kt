@@ -37,6 +37,7 @@ fun main() {
 class ArmeriaGrpcSpringApplication {
 
     init {
+        // https://armeria.dev/docs/advanced-metrics/#changing-the-default-distribution-summary-config
         MoreMeters.setDistributionStatisticConfig(
             DistributionStatisticConfig.builder()
                 // configures quantiles
