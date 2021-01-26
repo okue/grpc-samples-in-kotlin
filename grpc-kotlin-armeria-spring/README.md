@@ -28,6 +28,8 @@ See
 
 Open http://localhost:8081/actuator
 
+See [armeria-spring-boot2-actuator-starter](https://github.com/line/armeria/tree/armeria-1.3.0/spring/boot2-actuator-starter).
+
 ### Prometheus metrics
 
 Open http://localhost:8081/internal/metrics
