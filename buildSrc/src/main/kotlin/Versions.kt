@@ -9,7 +9,7 @@ object Versions {
     const val COROUTINE = "1.4.2"
 
     // https://github.com/line/armeria
-    const val ARMERIA = "1.3.0"
+    const val ARMERIA = "1.4.0"
 
     // https://github.com/google/protobuf-gradle-plugin
     const val PROTOBUF_PLUGIN = "0.8.14"

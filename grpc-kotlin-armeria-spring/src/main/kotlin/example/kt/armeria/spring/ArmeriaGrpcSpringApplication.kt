@@ -77,17 +77,16 @@ class ArmeriaGrpcSpringApplication {
     ) = ArmeriaServerConfigurator { serverBuilder ->
         serverBuilder
             .service(
-                GrpcService.builder().apply {
-                    grpcServices.forEach {
-                        addService(
+                GrpcService.builder()
+                    .addServiceDefinitions(
+                        grpcServices.map {
                             ServerInterceptors.intercept(
                                 it,
                                 ErrorHandlingServerInterceptor(),
                                 ArmeriaRequestContextInterceptor
                             )
-                        )
-                    }
-                }
+                        }
+                    )
                     .supportedSerializationFormats(
                         GrpcSerializationFormats.PROTO,
                         GrpcSerializationFormats.JSON,
